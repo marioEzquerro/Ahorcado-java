@@ -34,7 +34,8 @@ public class Juego extends LeerFichero {
                 int rand = (int) (Math.random() * palabras.size());
                 // obtenemos el tiempo en el que comienza el juego
                 long inicio = System.currentTimeMillis();
-                game(palabras.get(rand), inicio); 
+//                game(palabras.get(rand), inicio);
+                game("elefante", inicio);
                 break;
             case "2":
                 printPuntuaciones();
@@ -78,10 +79,14 @@ public class Juego extends LeerFichero {
 
         // si la letra esta en la palabra
         if (palabra.contains(letra)) {
-            aciertos++;
+            for (int i = 0; i < palabra.length(); i++) { // recorrer la palabra y añadir 1 acierto por cada letra que aparece
+                if (palabra.charAt(i) == letra.charAt(0))
+                    aciertos++;
+            }
         } else {
             vidas--;
         }
+        System.out.println(">>>>"+aciertos);
 
         // acabar el juego al tener el mismo numero de aciertos que el tamaño de la palabra
         if (aciertos == palabra.length()) {
@@ -100,6 +105,11 @@ public class Juego extends LeerFichero {
             case 0:
                 System.out.println(Muneco.CERO_VIDA);
                 System.out.println("PERDISTE");
+                // reseteamos variables
+                vidas = 10;
+                aciertos = 0;
+                letrasUsadas.clear();
+                menu();
                 break;
             case 1:
                 System.out.println(Muneco.UNA_VIDA);
