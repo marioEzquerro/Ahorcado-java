@@ -11,52 +11,30 @@ public class Juego extends LeerFichero {
     private static int vidas = 10;
 
     public static void main(String[] args) {
-//        palabras.add("elefante");
-//        palabras.add("superficie");
-//        palabras.add("edificio");
-//        palabras.add("clocaca");
-//        palabras.add("leon");
-//        palabras.add("cascada");
-//        palabras.add("superman");
-//        palabras.add("spiderman");
-//        palabras.add("ordenador");
-//        palabras.add("silla");
-//        palabras.add("silabas");
-//        palabras.add("boligrafo");
-//        palabras.add("roca");
-//        palabras.add("libro");
-//        palabras.add("lapicero");
-//        palabras.add("avion");
-//        palabras.add("baloncesto");
-//        palabras.add("cuerda");
-//        palabras.add("aprovado");
-//        palabras.add("reptil");
-//        palabras.add("intrinseco");
-//        palabras.add("rectangulo");
-//        palabras.add("insecto");
-//
-//        LeerFichero.grabarDatos(palabras, "palabras.dtd");
-
+        // leer y almacenar la lista de palabras y las puntuaciones de jugadores
         LeerFichero.leerDatos(palabras, "palabras.dtd");
         LeerFichero.leerDatos(jugadores, "puntuaciones.dtd");
         menu();
 
     }
 
-
+    // menu principal del juego
     public static void menu() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("1. Jugar\n" +
                 "2. Puntuaciones\n" +
-                "3. Salir");
+                "3. Añadir más palabras\n" +
+                "4. Salir");
         String opc = sc.next();
 
         switch (opc) {
             case "1":
+                // escogemos una palabra al azar para jugar
                 int rand = (int) (Math.random() * palabras.size());
+                // obtenemos el tiempo en el que comienza el juego
                 long inicio = System.currentTimeMillis();
-                game(palabras.get(rand), inicio);
+                game(palabras.get(rand), inicio); 
                 break;
             case "2":
                 printPuntuaciones();
@@ -65,6 +43,7 @@ public class Juego extends LeerFichero {
                 anadirPalabras();
                 break;
             case "4":
+                // guardar todo al salir
                 LeerFichero.grabarDatos(jugadores, "puntuaciones.dtd");
                 LeerFichero.grabarDatos(palabras, "palabras.dtd");
                 System.exit(1);
@@ -76,7 +55,8 @@ public class Juego extends LeerFichero {
         menu();
     }
 
-
+    // esta funcion imprime el muñeco, la palabra ocultando las letras "casa" -> "_ _ _ _" 
+    // y las letras que ya has introducido en otros turnos
     public static void game(String palabra, long inicio) {
         Scanner sc = new Scanner(System.in);
         printMuneco();
@@ -109,9 +89,11 @@ public class Juego extends LeerFichero {
             menu();
         }
 
+        // llamada recursiva para otra ronda
         game(palabra, inicio);
     }
 
+    // mostrar muñeco segun las vidas que tengo
     public static void printMuneco() {
         switch (vidas) {
             case 0:
@@ -154,6 +136,7 @@ public class Juego extends LeerFichero {
 
     public static void guardarPuntuaciones(long inicio) {
         Scanner sc = new Scanner(System.in);
+        // resto la hora de inicio a la actual para ver cuanto tiempo he tardado
         long tiempo = System.currentTimeMillis() - inicio;
 
         System.out.print("Nombre: ");
@@ -177,6 +160,8 @@ public class Juego extends LeerFichero {
         System.out.println();
     }
 
+    // compruebo que la palabra que trato de adivinar tiene alguna de las letras
+    // que se añaden a "letrasUsadas" y imprimo "_" si no esta y la letra en el caso de estar
     public static void printPalabra(String palabra) {
         for (int i = 0; i < palabra.length(); i++) {
             String letra = Character.toString(palabra.charAt(i));
