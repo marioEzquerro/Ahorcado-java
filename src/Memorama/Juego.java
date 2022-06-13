@@ -68,7 +68,7 @@ public class Juego extends LeerFichero {
         }
 
         System.out.print("\nIntroduce una letra: ");
-        String letra = sc.next().toLowerCase();
+        String letra = sc.next().toLowerCase(); // la paso a minusculas para que sean todas iguales introduzca "a" o "A"
 
 
         // añadir letra a la lista de usadas si no esta repetida
@@ -76,6 +76,7 @@ public class Juego extends LeerFichero {
             letrasUsadas.add(letra.toLowerCase());
         }
 
+        // si la letra esta en la palabra
         if (palabra.contains(letra)) {
             aciertos++;
         } else {
